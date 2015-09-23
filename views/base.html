@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en-US" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        {% if title %}
+            <title>{{ title }} | {{ brand }}</title>
+        {% else %}
+            <title>{{ brand }}</title>
+        {% endif %}
+        <link rel="stylesheet" href="/assets/styles/main.css" />
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+</html>

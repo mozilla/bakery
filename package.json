@@ -1,0 +1,17 @@
+{
+  "name": "Bakery",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "debug": "^2.2.0",
+    "express": "^4.13.1",
+    "morgan": "^1.6.1",
+    "nunjucks": "^2.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jsbeautifier": "^1.0.1",
+    "gulp-jshint": "^1.11.2"
+  }
+}
