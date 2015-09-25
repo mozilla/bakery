@@ -1,7 +1,7 @@
 {
     "browser": true,
     "node": true,
-    "mocha": true,
+    "jquery": true,
 
     "bitwise": true,
     "curly": false,

@@ -2,8 +2,8 @@
 
 var gulp = require('gulp');
 
-var js = ['**/*.js', '!node_modules/**/*.js'];
-var json = ['**/*.json', '!node_modules/**/*.json', '!tests/fixtures/**/*.json'];
+var js = ['**/*.js', '!node_modules/**/*.js', '!public/lib/**/*.js'];
+var json = ['**/*.json', '!node_modules/**/*.json', '!public/lib/**/*.json'];
 
 gulp.task('beautify', ['beautify:javascript']);
 

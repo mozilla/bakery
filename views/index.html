@@ -1,1 +1,43 @@
 {% extends 'base.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/assets/styles/index.css" />
+{% endblock %}
+
+{% block scripts %}
+    <script src="/assets/js/build.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form id="build-funnelcake" method="post">
+        <fieldset id="background">
+            <legend>Background</legend>
+            <div class="field">
+                <label>Name: <input type="text" /></label>
+            </div>
+            <div class="field">
+                <label>Email address: <input type="text" /></label>
+            </div>
+        </fieldset>
+        <fieldset id="modifications">
+            <legend>Modifications</legend>
+            <div class="field page">
+                <label><input type="checkbox" />First-run page</label>
+                <input placeholder="http://example.com" type="text" class="url hidden" />
+            </div>
+            <div class="field page">
+                <label><input type="checkbox" />New tab page</label>
+                <input placeholder="http://example.com" type="text" class="url hidden" />
+            </div>
+            <div class="field page">
+                <label><input type="checkbox" />Homepage</label>
+                <input placeholder="http://example.com" type="text" class="url hidden" />
+            </div>
+        </fieldset>
+        <div class="field">
+            <label for="other-notes">Other notes:</label>
+            <textarea id="other-notes" rows="10" cols="100"></textarea>
+        </div>
+        <input type="submit" value="Build funnelcake" />
+    </form>
+{% endblock %}

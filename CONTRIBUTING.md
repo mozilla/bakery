@@ -2,9 +2,10 @@
 
 Install dependencies before getting started.
 
-1. Run `npm install`
-2. Run `npm install -g gulp`
-3. Install [foreman](https://github.com/ddollar/foreman)
+1. Run `npm install -g gulp bower`
+2. Run `npm install`
+3. Run `bower install`
+4. Install [foreman](https://github.com/ddollar/foreman)
 
 # Running Bakery
 
