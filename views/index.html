@@ -19,6 +19,21 @@
                 <label>Email address: <input type="text" /></label>
             </div>
         </fieldset>
+        <fieldset id="funnelcake">
+            <legend>Funnelcake</legend>
+            <div class="field page">
+                <label>Version #: </label><input type="text" />
+            </div>
+            <div class="field page">
+                <label>Build Channel: </label><input type="text" />
+            </div>
+            <div class="field page">
+                <label>Language: </label><input type="text" />
+            </div>
+            <div class="field page">
+                <label>OS: </label><input type="text" />
+            </div>
+        </fieldset>
         <fieldset id="modifications">
             <legend>Modifications</legend>
             <div class="field page">
@@ -33,11 +48,17 @@
                 <label><input type="checkbox" />Homepage</label>
                 <input placeholder="http://example.com" type="text" class="url hidden" />
             </div>
+            <div class="field page">
+                <label><input type="checkbox" checked/>Advanced Newtab (suggested tiles, etc)</label>
+            </div>
         </fieldset>
-        <div class="field">
-            <label for="other-notes">Other notes:</label>
-            <textarea id="other-notes" rows="10" cols="100"></textarea>
-        </div>
+        <fieldset id="distribution">
+            <legend>Distribution</legend>
+            <div class="field page">
+                <label>Sample Size: </label><input type="text" />
+            </div>
+        </fieldset>
+
         <input type="submit" value="Build funnelcake" />
     </form>
 {% endblock %}

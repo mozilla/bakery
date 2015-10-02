@@ -46,10 +46,10 @@ $(document).ready(function() {
                     setTimeout(function() {
                         var $resultsUL = $('main').append('<section id="ABResults"><h1>Results</h1></section>').find('#ABResults').append('<ul>').find('ul');
                         $resultsUL.append('<li><a href="http://example.com?distribution-link">Live Distribution</a></li>');
-                    }, 15000);
+                    }, 7500);
 
                 }, false);
-            }, 15000);
+            }, 7500);
         });
 
         function fakeStatus($statusUL, messages) {
@@ -65,11 +65,11 @@ $(document).ready(function() {
                     if (dots === 3) {
                         clearInterval(addDots);
                     }
-                }, 1000);
+                }, 500);
 
                 setTimeout(function() {
                     $statusUL.find('li:last-child').append(' done');
-                }, 4000);
+                }, 2000);
             }
 
             addMessage();
@@ -79,7 +79,7 @@ $(document).ready(function() {
                 if (messages.length === 0) {
                     clearInterval(addMessages);
                 }
-            }, 5000);
+            }, 2500);
         }
     }());
 
