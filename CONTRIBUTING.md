@@ -6,6 +6,7 @@ Install dependencies before getting started.
 2. Run `npm install`
 3. Run `bower install`
 4. Install [foreman](https://github.com/ddollar/foreman)
+5. Run `npm install optimizely-node-client`
 
 # Running Bakery
 
