@@ -10,4 +10,4 @@ Components:
 
 Interested in Contributing?
 
-Check out CONTRIBUTING.md
+Check out [CONTRIBUTING.md](https://github.com/mozilla/bakery/blob/master/CONTRIBUTING.md)
