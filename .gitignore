@@ -8,3 +8,6 @@ npm-debug.log
 
 # Bower
 public/lib
+
+# Tokens
+access.js
