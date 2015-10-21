@@ -11,6 +11,15 @@ var oc = new OptimizelyClient(API_TOKEN);
 
 oc.createExperiment({
   project_id:"3637670143",
-  description:"Hello, Hein!",
-  edit_url:"google.com"
+  description:"[bug 1200276] Electrolysis Funnelcake Build",
+  status: "Not started",
+  url_conditions: [
+    {
+      "match_type": "regex",
+      "value": "^https:\/\/www\.mozilla\.org\/en-US/firefox\/developer\/.*$"
+    }
+  ],
+  edit_url: "https://www.mozilla.org/en-US/firefox/developer/",
+  activation_mode: "immediate",
+  experiment_type: "ab"
   })
