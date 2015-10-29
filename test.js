@@ -8,34 +8,53 @@ console.log(access.token);
 var API_TOKEN = access.token;
 var oc = new OptimizelyClient(API_TOKEN);
 
-var name;
+    //get input line
+  var stdin = process.openStdin();
+  var input;
 
-    //get goals w/ ids (STILL NEED TO MAKE)
-//var goals = oc.getGoals({ options })
+    //add listener for input line
+  stdin.addListener("data", function(d) {
+    input = d.toString().trim();
+  });
 
-    //get audiences w/ ids
-var audienceList = oc.getAudiences({
+    //get goals
+var goals = oc.getGoals({ 
   id:246059135
 });
 
   //get experiment id
 //var experiment = oc.getExperiment({ options });
 
-//goals.then(function(result) { 
-    audienceList.then(function(result) {
+goals.then(function(goalsList) {
+
+    goalsList.forEach(function(goal){
+      console.log(goal.title);
+    });
+
+      //get audiences w/ ids
+    var audienceList = oc.getAudiences({
+      id:246059135
+    });
+
+    audienceList.then(function(audienceList) {
 
         //I'm pretty sure with .then() calls, I'll have to do everything embedded within the previous 
         //.then() due to the way that these calls work
 
-          //get array of all audiences
-        var audiences = result;
-
           //print each audience name
-        audiences.forEach(function(audience) {
+        audienceList.forEach(function(audience) {
             console.log(audience.name);
         });
-        
+
           //prompt user to enter in information for experiment
+        console.log("Audience?");
+        var userAudience = input;
+
+        console.log("Goal?");
+        var userGoal = input;
+
+        console.log("Your audience = " + userAudience);
+        console.log("Your goal = " + userGoal);
 
         /*
             //Create experiment
@@ -67,4 +86,4 @@ var audienceList = oc.getAudiences({
         })
         */
     });
-//});
+});
