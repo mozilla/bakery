@@ -8,45 +8,44 @@ console.log(access.token);
 var API_TOKEN = access.token;
 var oc = new OptimizelyClient(API_TOKEN);
 
-    //get input line
-  var stdin = process.openStdin();
-  var input;
-
-    //add listener for input line
-  stdin.addListener("data", function(d) {
-    input = d.toString().trim();
-  });
-
     //get goals
 var goals = oc.getGoals({ 
-  id:246059135
+  id:3637670143
 });
 
-  //get experiment id
-//var experiment = oc.getExperiment({ options });
-
+  //get response from goals
 goals.then(function(goalsList) {
 
+      //print every goal title and ID
     goalsList.forEach(function(goal){
-      console.log(goal.title);
+      console.log(goal.title + " ID: " + goal.id);
     });
 
-      //get audiences w/ ids
+      //get audiences
     var audienceList = oc.getAudiences({
-      id:246059135
+      id:3637670143
     });
 
+      //get response from audiences
     audienceList.then(function(audienceList) {
 
         //I'm pretty sure with .then() calls, I'll have to do everything embedded within the previous 
         //.then() due to the way that these calls work
+        //Check with John about this code layout later
 
-          //print each audience name
+          //print each audience name and ID
         audienceList.forEach(function(audience) {
-            console.log(audience.name);
+            console.log(audience.name + " ID: " + audience.id);
         });
 
-          //prompt user to enter in information for experiment
+
+        ///////SKIPPING THE USER PROMPTING PART/////////////////////
+        /*    //add listener for input line
+        stdin.addListener("data", function(d) {
+          input = d.toString().trim();
+        });
+
+            //prompt user to enter in information for experiment
         console.log("Audience?");
         var userAudience = input;
 
@@ -54,36 +53,85 @@ goals.then(function(goalsList) {
         var userGoal = input;
 
         console.log("Your audience = " + userAudience);
-        console.log("Your goal = " + userGoal);
+        console.log("Your goal = " + userGoal);*/
+        /////////////////////////////////////////////////////////////
 
-        /*
-            //Create experiment
-        oc.createExperiment({
-          project_id:"3637670143",
-          description:"[bug 1200276] Electrolysis Funnelcake Build",
-          status: "Not started",
-          url_conditions: [
+          //we are explicitly stating our variable values here, but in all reality, this 
+          //will need to be pulled from the user
+        var projectID = 3637670143;
+        var expDescription = "[bug 1200276] Electrolysis Funnelcake Build";
+        var expStatus = "Not started";
+        var expUrlConditions = 
+        [
             {
               "match_type": "regex",
               "value": "^https:\/\/www\.mozilla\.org\/en-US/firefox\/developer\/.*$"
             }
-          ],
-          edit_url: "https://www.mozilla.org/en-US/firefox/developer/",
-          activation_mode: "immediate",
+          ];
+        var expURL = "https://www.mozilla.org/en-US/firefox/developer/";
+        var expActiveMode = "immediate";
+        var exp_primary_goal_id = 3634801770;
+        var expAudienceIDs = [3701458920];
+        
+            //Create experiment
+        experimentPosted = oc.createExperiment({
+          project_id:projectID,
+          description: expDescription,
+          status: expStatus,
+          url_conditions: expUrlConditions,
+          edit_url: expURL,
+          activation_mode: expActiveMode,
           experiment_type: "ab",
-          primary_goal_id: 3636631712,
-          audience_ids: [3701458920]
-        });/*
 
-            //get ID for experiment just created somehow
+        });
 
-            //Create variations for experiment w/ experiment ID
+          //get info for experiment just created
+        experimentPosted.then(function(experimentDetails) {
+            //get id for experiment just created
+          var experimentID = experimentDetails.id;
+            //prompt user for the percentage they want to include
+          var percentageIncluded = 5100;
 
-            //Create schedule for experiment w/ experiment ID
-        /*oc.createSchedule({
-            "stop_time": "2015-12-20T08:00:00Z",
-            //"experiment_id": INSERT EXPERIMENT ID HERE
-        })
-        */
+          console.log(experimentID);
+
+            //update our created experiment with these details
+          oc.updateExperiment({
+            id: experimentID,
+            audience_ids: expAudienceIDs,
+            percentage_included: percentageIncluded
+          });
+
+            //prompt user for the variation information
+          var varOneWeight = 5100;
+          var varOneDescription = "FC56 (control)";
+          var varOneJS = "$(\".os_win > .download-link\").attr({\"href\":\"FC56 BUILD LINK HERE\"});";
+          var varTwoWeight = 4900;
+          var varTwoDescription = "FC57 (e10s Disabled)";
+          var varTwoJS = "$(\".os_win > .download-link\").attr({\"href\":\"FC57 BUILD LINK HERE\"});";
+
+
+            //create variation one
+          oc.createVariation({
+            experiment_id: experimentID,
+            description: varOneDescription,
+            weight: varOneWeight,
+            js_component: varOneJS
+          });
+
+            //create variation two
+          oc.createVariation({
+            experiment_id: experimentID,
+            description: varTwoDescription,
+            weight: varTwoWeight,
+            js_component: varTwoJS
+          });
+
+                //Create schedule for experiment w/ experiment ID
+            oc.createSchedule({
+                "stop_time": "2015-12-20T08:00:00Z",
+                "experiment_id": experimentID
+            })
+            
+        });
     });
 });
