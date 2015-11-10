@@ -14,6 +14,7 @@ var expAudienceIDs = [];
 var expVariations = [""];
 var expType = "ab";
 var goalExpIDs;
+var numVariations;
 
     //Get and set API token
 var API_TOKEN = access.token;
@@ -69,20 +70,32 @@ var expSchema = {
 var varSchema = {
     properties: {
         Weight: {
-
+            message: "Percentage of Visitors (all "+numVariations+" must add up to 100)",
+            required: true
         },
         Description: {
-
+            message: "Variation Title",
+            required: true
         },
         JS: {
-
+            message: "Custom Javascript",
+            required: true
         }
     }
 }
 
     //create JSON schema for schedule prompt
 var schedSchema = {
-
+    properties: {
+        Start_Time: {
+            message: "Start Time",
+            required: false
+        },
+        Stop_Time: {
+            message: "Stop Time",
+            required: false
+        }
+    }
 }
 
     //get response from goals
@@ -119,6 +132,7 @@ goals.then(function(goalsList) {
             expAudienceIDs[expAudienceIDs.length] = parseInt(result.Audience);
             chosenGoalID = parseInt(result.Goal);
             percentageIncluded = result.Segment*100;
+            numVariations = result.Number_Of_Variations;
 
             if(result.Regex == "Y" || result.Regex == "y")
             {
@@ -135,8 +149,6 @@ goals.then(function(goalsList) {
                 }];
             }
 
-            console.log("\n");
-        
                 //Create experiment
             experimentPosted = oc.createExperiment({
                 project_id: projectID,
@@ -151,6 +163,7 @@ goals.then(function(goalsList) {
 
                 //get info for experiment just created
             experimentPosted.then(function(experimentDetails) {
+                console.log("\n");
                 console.log("Created experiment...");
 
                     //get id for experiment just created
@@ -164,79 +177,77 @@ goals.then(function(goalsList) {
                     percentage_included: percentageIncluded
                 });
 
-                update.done(function(result) { console.log("Updated experiment..."); });
+                update.done(function(result) { console.log("Updated experiment...\n");
+                    console.log("EXPERIMENT SCHEUDLE") 
+                    prompt.get(schedSchema, function (err,result2) {
 
-                    //Create schedule for experiment w/ experiment ID
-                var createSchedule = oc.createSchedule({
-                    "stop_time": "2015-12-20T08:00:00Z",
-                    "experiment_id": experimentID
-                });
+                            //Create schedule for experiment w/ experiment ID
+                        var createSchedule = oc.createSchedule({
+                            "stop_time": result2.Stop_Time,
+                            "start_time": result2.Start_Time,
+                            "experiment_id": experimentID
+                        });
 
-                createSchedule.done(function(result) { console.log("Added schedule..."); });
+                        createSchedule.done(function(result) { console.log("Added schedule..."); });
+                    
 
+                        variationsList = oc.getVariations({
+                            id: experimentID
+                        });
 
-                    //prompt user for the variation information
-                var varOneWeight = 5100;
-                var varOneDescription = "FC56 (control)";
-                var varOneJS = "$(\".os_win > .download-link\").attr({\"href\":\"FC56 BUILD LINK HERE\"});";
-                var varTwoWeight = 4900;
-                var varTwoDescription = "FC57 (e10s Disabled)";
-                var varTwoJS = "$(\".os_win > .download-link\").attr({\"href\":\"FC57 BUILD LINK HERE\"});";
+                        variationsList.then(function(variations) {
+                            console.log("Retrieved default variations...");
 
-                variationsList = oc.getVariations({
-                    id: experimentID
-                });
+                            variations.forEach(function(variation) {
+                                var deleted = oc.deleteVariation({
+                                    id: variation.id
+                                });
+                            });
 
-                variationsList.then(function(variations) {
-                    console.log("Retrieved default variations...");
+                            console.log("Deleted default variations...");
 
-                    variations.forEach(function(variation) {
-                        var deleted = oc.deleteVariation({
-                            id: variation.id
+                            for(var x=0;x<numVariations;x++)
+                            {
+                                console.log("VARIATION "+x+" PARAMETERS:");
+                                prompt.get(varSchema, function (err,result3) {
+                                        //prompt user for the variation information
+                                    var varWeight = result3.Weight;
+                                    var varDescription = result3.Description;
+                                    var varJS = result3.JS;
+
+                                        //create variation
+                                    var createVar = oc.createVariation({
+                                        experiment_id: experimentID,
+                                        description: varDescription,
+                                        weight: varWeight,
+                                        js_component: varJS
+                                    });
+
+                                    createVar.done(function(result) { console.log("Created variation..."); });
+                                });
+                            }
+
+                                //get the array of experiments for the goal we would like
+                            goalsList.forEach(function(goal) {
+                                if(goal.id = chosenGoalID)
+                                {
+                                    goalExpIDs = goal.experiment_ids;
+                                }
+                            });
+
+                                //append our experiment ID to the end of that array of experiments
+                            goalExpIDs[goalExpIDs.length] = experimentID;
+
+                                //post that info to optimizely
+                            var addGoal = oc.putGoal({
+                                id: chosenGoalID,
+                                experiment_ids: goalExpIDs
+                            });
+
+                            addGoal.done(function(result) { console.log("Added goal..."); });
                         });
                     });
-
-                    console.log("Deleted default variation...");
-
-                        //create variation one
-                    var createVar = oc.createVariation({
-                        experiment_id: experimentID,
-                        description: varOneDescription,
-                        weight: varOneWeight,
-                        js_component: varOneJS
-                    });
-
-                    createVar.done(function(result) { console.log("Created first variation..."); });
-
-                        //create variation two
-                    var createVar2 = oc.createVariation({
-                        experiment_id: experimentID,
-                        description: varTwoDescription,
-                        weight: varTwoWeight,
-                        js_component: varTwoJS
-                    });
-
-                    createVar2.done(function(result) { console.log("Created second variation..."); });
-
-                        //get the array of experiments for the goal we would like
-                    goalsList.forEach(function(goal) {
-                        if(goal.id = chosenGoalID)
-                        {
-                            goalExpIDs = goal.experiment_ids;
-                        }
-                    });
-
-                        //append our experiment ID to the end of that array of experiments
-                    goalExpIDs[goalExpIDs.length] = experimentID;
-
-                        //post that info to optimizely
-                    var addGoal = oc.putGoal({
-                        id: chosenGoalID,
-                        experiment_ids: goalExpIDs
-                    });
-
-                    addGoal.done(function(result) { console.log("Added goal..."); });
-                });
+                }); 
             });
         });
     });
