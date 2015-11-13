@@ -2,9 +2,8 @@
 
 Install dependencies before getting started.
 
-1. Run `npm install -g gulp bower`
-2. Run `npm install`
-3. Run `bower install`
+1. Download NodeJs (https://nodejs.org/en/)
+2. run `npm install prompt`
 
 # Running Bakery
 
