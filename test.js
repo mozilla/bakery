@@ -79,7 +79,7 @@ var varSchema = {
         },
         JS: {
             message: "Custom Javascript",
-            required: true
+            required: false
         }
     }
 }
@@ -178,17 +178,22 @@ goals.then(function(goalsList) {
                 });
 
                 update.done(function(result) { console.log("Updated experiment...\n");
-                    console.log("EXPERIMENT SCHEUDLE") 
+                    console.log("EXPERIMENT SCHEUDLE");
+                    console.log("Ex start/stop time: 2015-12-20T08:00:00Z");
                     prompt.get(schedSchema, function (err,result2) {
 
-                            //Create schedule for experiment w/ experiment ID
-                        var createSchedule = oc.createSchedule({
-                            "stop_time": result2.Stop_Time,
-                            "start_time": result2.Start_Time,
-                            "experiment_id": experimentID
-                        });
 
-                        createSchedule.done(function(result) { console.log("Added schedule..."); });
+                        if(result2.Stop_Time || result2.Start_Time)
+                        {
+                                //Create schedule for experiment w/ experiment ID
+                            var createSchedule = oc.createSchedule({
+                                "stop_time": result2.Stop_Time,
+                                "start_time": result2.Start_Time,
+                                "experiment_id": experimentID
+                            });
+
+                            createSchedule.done(function(result) { console.log("Added schedule..."); });
+                        }
                     
 
                         variationsList = oc.getVariations({
@@ -205,27 +210,6 @@ goals.then(function(goalsList) {
                             });
 
                             console.log("Deleted default variations...");
-
-                            for(var x=0;x<numVariations;x++)
-                            {
-                                console.log("VARIATION "+x+" PARAMETERS:");
-                                prompt.get(varSchema, function (err,result3) {
-                                        //prompt user for the variation information
-                                    var varWeight = result3.Weight;
-                                    var varDescription = result3.Description;
-                                    var varJS = result3.JS;
-
-                                        //create variation
-                                    var createVar = oc.createVariation({
-                                        experiment_id: experimentID,
-                                        description: varDescription,
-                                        weight: varWeight,
-                                        js_component: varJS
-                                    });
-
-                                    createVar.done(function(result) { console.log("Created variation..."); });
-                                });
-                            }
 
                                 //get the array of experiments for the goal we would like
                             goalsList.forEach(function(goal) {
@@ -244,7 +228,44 @@ goals.then(function(goalsList) {
                                 experiment_ids: goalExpIDs
                             });
 
-                            addGoal.done(function(result) { console.log("Added goal..."); });
+                            addGoal.done(function(result) { 
+                                console.log("Added goal...\n");    
+
+                                console.log("DEFAULT VARIATION AMT: 2");
+                                console.log("VARIATION 1 PARAMETERS:");
+                                prompt.get(varSchema, function (err,result3) {
+                                        //prompt user for the variation information
+                                    var varWeight = result3.Weight*100;
+                                    var varDescription = result3.Description;
+                                    var varJS = result3.JS || "";
+
+                                        //create variation
+                                    var createVar = oc.createVariation({
+                                        experiment_id: experimentID,
+                                        description: varDescription,
+                                        weight: varWeight,
+                                        js_component: varJS
+                                    });
+                                    createVar.done(function(result) { 
+                                        console.log("Created variation 1..."); 
+                                        prompt.get(varSchema, function (err,result4) {
+                                                //prompt user for the variation information
+                                            varWeight = result4.Weight*100;
+                                            varDescription = result4.Description;
+                                            varJS = result4.JS || "";
+
+                                                //create variation
+                                            var createVar2 = oc.createVariation({
+                                                experiment_id: experimentID,
+                                                description: varDescription,
+                                                weight: varWeight,
+                                                js_component: varJS
+                                            });
+                                            createVar2.done(function(result) {console.log("Created variation 2..."); });
+                                        });
+                                    });
+                                });
+                            });
                         });
                     });
                 }); 
