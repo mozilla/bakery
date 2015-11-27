@@ -6,6 +6,8 @@ var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var nunjucks = require('nunjucks');
+var access = require('./access');
+var OptimizelyClient = require('optimizely-node-client');
 
 var config = require('./lib/config');
 

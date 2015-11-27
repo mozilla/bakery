@@ -9,6 +9,17 @@ $(document).ready(function() {
         });
     }());
 
+/*
+    var projectsList = JSON.stringify(projToClient)
+
+	var projectsListDOM = document.getElementById("projectsList");
+	projectsList.forEach(function(project) {
+		var option = document.createElement("option");
+		option.text = project.project_name;
+		option.value = project.id;
+		projectsListDOM.add(option);
+	});*/
+
     // Fake progress
     (function() {
         $('#build-funnelcake').submit(function(event) {
