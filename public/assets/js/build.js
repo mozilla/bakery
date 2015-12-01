@@ -9,6 +9,7 @@ $(document).ready(function() {
         });
     }());
 
+
 /*
     var projectsList = JSON.stringify(projToClient)
 

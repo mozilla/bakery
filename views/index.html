@@ -13,9 +13,22 @@
         <fieldset id="background">
             <legend>Project</legend>
             <div class="field">
+                {{options}}
                 <select name="projects" id="projectsList">
-                    
+                    {% for project in projectsJSON %}
+                        <option value="1">{{ project.name }}</option>
+                    {% else %}
+                        <option value="1">empty</option>
+                    {% endfor %}
                 </select>
+                <ul>
+                    {{ projectsJSON }}
+                    {% for item in projectsJSON %}
+                      <li>{{ item.name }}</li>
+                    {% else %}
+                      <li>This would display if the 'item' collection were empty</li>
+                    {% endfor %}
+                    </ul>
             </div>
         </fieldset>
         <fieldset id="background">
