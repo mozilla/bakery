@@ -25,6 +25,9 @@ env = nunjucks.configure('views', {
 
 // Global template variables
 env.addGlobal('brand', config.brand);
+env.addFilter('println', function(str) {
+	console.log(str);
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
