@@ -1,6 +1,6 @@
 'use strict';
 
-var access = require('./access.js');
+var access = require('../access.js');
 var OptimizelyClient = require('optimizely-node-client');
 
 //Get and set API token
