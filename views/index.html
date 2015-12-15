@@ -4,12 +4,9 @@
     <link rel="stylesheet" href="/assets/styles/index.css" />
 {% endblock %}
 
-{% block scripts %}
-    <script src="/assets/js/build.js"></script>
-{% endblock %}
 
 {% block content %}
-    <form id="build-funnelcake" method="post">
+    <form id="build-funnelcake" action="/" method="get">
         <div id="step1">
             <fieldset id="background">
                 <legend>Project</legend>
@@ -23,6 +20,7 @@
                     </select>
                 </div>
             </fieldset>
+            <input type="submit" value="Next" />
         </div>
         <div id="step2" hidden>
             <fieldset id="background">
