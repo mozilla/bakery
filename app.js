@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var nunjucks = require('nunjucks');
 var access = require('./access');
 var OptimizelyClient = require('optimizely-node-client');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var config = require('./lib/config');
 
@@ -16,6 +18,14 @@ var index = require('./routes/index');
 
 var app = express();
 var env;
+
+app.use(cookieParser('123456789QWERTY'));
+app.use(session(session({
+  genid: function(req) {
+    return genuuid() // use UUIDs for session IDs 
+  },
+  secret: '123456789QWERTY'
+})));
 
 // Set up Nunjucks
 env = nunjucks.configure('views', {

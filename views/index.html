@@ -7,51 +7,88 @@
 
 {% block content %}
     <form id="build-funnelcake" action="/" method="get">
-        <div id="step1">
-            <fieldset id="background">
-                <legend>Project</legend>
-                <div class="field">
-                    <select name="projects" id="projectsList">
-                        {% for project in projectsJSON %}
-                            <option value={{project.id}}>{{ project.name }}</option>
-                        {% else %}
-                            <option value="1">ERROR: NO PROJ FOUND</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </fieldset>
-            <input type="submit" value="Next" />
-        </div>
-        <div id="step2" hidden>
-            <fieldset id="background">
-                <legend>Background</legend>
-                <div class="field">
-                    <label>Name: <input type="text" /></label>
-                </div>
-                <div class="field">
-                    <label>Email address: <input type="text" /></label>
-                </div>
-            </fieldset>
-            <fieldset id="modifications">
-                <legend>Modifications</legend>
-                <div class="field page">
-                    <label><input type="checkbox" />First-run page</label>
-                    <input placeholder="http://example.com" type="text" class="url hidden" />
-                </div>
-                <div class="field page">
-                    <label><input type="checkbox" />New tab page</label>
-                    <input placeholder="http://example.com" type="text" class="url hidden" />
-                </div>
-                <div class="field page">
-                    <label><input type="checkbox" />Homepage</label>
-                    <input placeholder="http://example.com" type="text" class="url hidden" />
-                </div>
-            </fieldset>
-            <div class="field">
-                <label for="other-notes">Other notes:</label>
-                <textarea id="other-notes" rows="10" cols="100"></textarea>
+        {% if step >= 0 %}
+            <div id="step1">
+                <fieldset id="background">
+                    <legend>Project</legend>
+                    <div class="field">
+                        <select name="projects" id="projectsList">
+                            {% if chosenProj %}
+                                {% for project in projectsJSON %}
+                                    {% if project.id == chosenProj %}
+                                        <option value={{project.id}} selected>{{ project.name }}</option>
+                                    {% else %}
+                                        <option value={{project.id}}>{{ project.name }}</option>
+                                    {% endif %}
+                                {% else %}
+                                    <option value="1">ERROR: NO PROJ FOUND</option>
+                                {% endfor %}
+                            {% else %}
+                                {% for project in projectsJSON %}
+                                    <option value={{project.id}}>{{ project.name }}</option>
+                                {% else %}
+                                    <option value="1">ERROR: NO PROJ FOUND</option>
+                                {% endfor %}
+                            {% endif %}
+
+                        </select>
+                    </div>
+                </fieldset>
             </div>
-            <input type="submit" value="Build funnelcake" />
-        </div>
+        {% endif %}
+        {% if step >= 2 %}
+            <div id="step2">
+                <fieldset id="background">
+                    <legend>Audience and Goal</legend>
+                    <div class="field">
+                        <select name="audience" id="audienceList">
+                            {% if chosenAudience %}
+                                {% for audience in audienceJSON %}
+                                    {% if audience.id == chosenAudience %}
+                                        <option value={{audience.id}} selected>{{ audience.name }}</option>
+                                    {% else %}
+                                        <option value={{audience.id}}>{{ audience.name }}</option>
+                                    {% endif %}
+                                {% else %}
+                                    <option value="1">ERROR: NO AUDIENCE FOUND</option>
+                                {% endfor %}
+                            {% else %}
+                                {% for audience in audienceJSON %}
+                                    <option value={{audience.id}}>{{ audience.name }}</option>
+                                {% else %}
+                                    <option value="1">ERROR: NO AUDIENCE FOUND</option>
+                                {% endfor %}
+                            {% endif %}
+
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <select name="goals" id="goalsList">
+                            {% if chosenGoal %}
+                                {% for goal in goalsJSON %}
+                                    {% if goal.id == chosenGoal %}
+                                        <option value={{goal.id}} selected>{{ goal.name }}</option>
+                                    {% else %}
+                                        <option value={{goal.id}}>{{ goal.name }}</option>
+                                    {% endif %}
+                                {% else %}
+                                    <option value="1">ERROR: NO GOAL FOUND</option>
+                                {% endfor %}
+                            {% else %}
+                                {% for goal in goalsJSON %}
+                                    <option value={{goal.id}}>{{ goal.name }}</option>
+                                {% else %}
+                                    <option value="1">ERROR: NO GOAL FOUND</option>
+                                {% endfor %}
+                            {% endif %}
+
+                        </select>
+                    </div>
+                    
+                </fieldset>
+            </div>
+        {% endif %}
+        <input type="submit" value="Next" />
     </form>
 {% endblock %}
