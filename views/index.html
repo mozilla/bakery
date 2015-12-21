@@ -7,14 +7,14 @@
 
 {% block content %}
     <form id="build-funnelcake" action="/" method="get">
-        {% if step >= 0 %}
+        {% if step == 0 %}
             <div id="step1">
                 <fieldset id="background">
                     <legend>Project</legend>
                     <div class="field">
                         <select name="projects" id="projectsList">
                             {% if chosenProj %}
-                                {% for project in projectsJSON %}
+                                {% for project in projects %}
                                     {% if project.id == chosenProj %}
                                         <option value={{project.id}} selected>{{ project.name }}</option>
                                     {% else %}
@@ -24,7 +24,7 @@
                                     <option value="1">ERROR: NO PROJ FOUND</option>
                                 {% endfor %}
                             {% else %}
-                                {% for project in projectsJSON %}
+                                {% for project in projects %}
                                     <option value={{project.id}}>{{ project.name }}</option>
                                 {% else %}
                                     <option value="1">ERROR: NO PROJ FOUND</option>
@@ -36,14 +36,45 @@
                 </fieldset>
             </div>
         {% endif %}
-        {% if step >= 2 %}
+        {% if step == 2 %}
             <div id="step2">
                 <fieldset id="background">
-                    <legend>Audience and Goal</legend>
+                    <legend>Experiment Details</legend>
                     <div class="field">
+                        <div>
+                            <p>Experiment Title</p>
+                        </div>
+                        <input type="text">
+                            {{ title }}
+                        </input>
+                    </div>
+
+                    <div class="field">
+                        <div>
+                            <p>Editor URL</p>
+                        </div>
+                        <input type="text">
+                            {{ editorURL }}
+                        </input>
+                    </div>
+
+                    <div class="field">
+                        <div>
+                            <p>Editor URL is Regular Expression:</p>
+                        </div>
+                        <input type="text">
+                            {{ experimentURL }}
+                        </input>
+                    </div>
+
+
+                    <div class="field">
+                        <div>
+                            <p>Audience</p>
+                        </div>
                         <select name="audience" id="audienceList">
                             {% if chosenAudience %}
-                                {% for audience in audienceJSON %}
+                                {% for audience in audiences %}
                                     {% if audience.id == chosenAudience %}
                                         <option value={{audience.id}} selected>{{ audience.name }}</option>
                                     {% else %}
@@ -53,7 +84,7 @@
                                     <option value="1">ERROR: NO AUDIENCE FOUND</option>
                                 {% endfor %}
                             {% else %}
-                                {% for audience in audienceJSON %}
+                                {% for audience in audiences %}
                                     <option value={{audience.id}}>{{ audience.name }}</option>
                                 {% else %}
                                     <option value="1">ERROR: NO AUDIENCE FOUND</option>
@@ -64,9 +95,12 @@
                     </div>
 
                     <div class="field">
+                        <div>
+                            <p>Goal</p>
+                        </div>
                         <select name="goals" id="goalsList">
                             {% if chosenGoal %}
-                                {% for goal in goalsJSON %}
+                                {% for goal in goals %}
                                     {% if goal.id == chosenGoal %}
                                         <option value={{goal.id}} selected>{{ goal.name }}</option>
                                     {% else %}
@@ -76,7 +110,7 @@
                                     <option value="1">ERROR: NO GOAL FOUND</option>
                                 {% endfor %}
                             {% else %}
-                                {% for goal in goalsJSON %}
+                                {% for goal in goals %}
                                     <option value={{goal.id}}>{{ goal.name }}</option>
                                 {% else %}
                                     <option value="1">ERROR: NO GOAL FOUND</option>
@@ -84,6 +118,24 @@
                             {% endif %}
 
                         </select>
+                    </div>
+
+                    <div class="field">
+                        <div>
+                            <p>Number of Variations</p>
+                        </div>
+                        <input type="text">
+                            {{ experimentURL }}
+                        </input>
+                    </div>
+
+                    <div class="field">
+                        <div>
+                            <p>Percentage of Visitors Included in Experiment:</p>
+                        </div>
+                        <input type="text">
+                            {{ experimentURL }}
+                        </input>
                     </div>
                     
                 </fieldset>

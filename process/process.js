@@ -1,5 +1,8 @@
 'use strict';
 
+// PROCESS.JS
+// Purpose: To asynchronously make optimizely client API calls based upon the current step
+
 var access = require('../access.js');
 var OptimizelyClient = require('optimizely-node-client');
 

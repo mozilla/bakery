@@ -3,54 +3,99 @@
 var express = require('express');
 var router = express.Router();
 
-var step = 0;
+var stepAPI = 0;
+var stepPage = 0;
 
-    // This code runs once the projects have been loaded.
 	router.get('/', function(request, response) {
 
-		// If we have posted a selected project
-		if(request.query.projects)
+		switch(stepPage)
 		{
-			// set the step
-			step = 1;
+			case 0:
+			{
+					// asynchronously request our projects/project IDs
+				require('../../process/process.js').initialize(function (projects) {
 
-			// store that project in memory
-			var ProjID = request.query.projects;
-			request.session.projectID = request.query.projects;
+					// store projects/project IDs in our session`
+					request.session.projects = projects;
+					// render our page with those projects
+					response.render('index.html', {projects: projects, step: stepAPI});
+				}, stepAPI);
 
-			// render our page with projects, chosen project, and step
-			console.log(request.session.projectID);
-			require('../../process/process.js').initialize(function (goalAudienceJSON) {
+				stepPage = 1;
+				break;
+			}
+			case 1:
+			{
+				// set the step
+				stepAPI = 1;
 
-				// next step, parse goalAudience JSON into goal and audience JSON respectively
-				// gotta save that info into session and then render the template with it for the user
+				// store that project in memory
+				var ProjID = request.query.projects;
+				request.session.projectID = request.query.projects;
 
-				step = 2;
+				// render our page with projects, chosen project, and step
+				require('../../process/process.js').initialize(function (goalAudience) {
 
-				console.log("******** PROJECT GOALS: ");
-				console.log(goalAudienceJSON);
+					// next step, parse goalAudience into goals and audiences respectively
+					// gotta save that info into session and then render the template with it for the user
 
+					stepAPI = 2;
 
-				response.render('index.html', {projectsJSON: request.session.projectsJSON, step: step, chosenProj: ProjID, audienceJSON: request.session.audienceJSON, goalsJSON: request.session.goalsJSON});
-			
-			}, step, request.session.projectID);
+					request.session.goals = parseGoals(goalAudience);
+					request.session.audiences = parseAudiences(goalAudience);
 
+					response.render('index.html', {projects: request.session.projects, step: stepAPI, chosenProj: ProjID, audiences: request.session.audiences, goals: request.session.goals});
+				
+				}, stepAPI, request.session.projectID);
 
-
+				stepPage = 2;
+				break;
+			}
 		}
-		// If we have not posted a selected project
-		else
-		{
-			// asynchronously request our projects/project IDs
-			require('../../process/process.js').initialize(function (projectsJSON) {
 
-				// store projects/project IDs in our session`
-				request.session.projectsJSON = projectsJSON;
-				// render our page with those projects
-				response.render('index.html', {projectsJSON: projectsJSON, step: step});
-			}, step);
-
-		}
 	});
+
+// parseGoals function
+// Purpose: To parse our goalAudience array for values (our goals) before our sentinal (*)
+function parseGoals(goalAudience)
+{
+	var goals = [];
+
+	for(var x=0; x<goalAudience.length; x++) {
+        if(goalAudience[x].name == "*")
+        {
+        	return goals;
+        }
+        else
+        {
+        	goals.push(goalAudience[x]);
+        }
+    }
+
+	return goals;
+}
+
+// parseGoals function
+// Purpose: To parse our goalAudience array for values (our audiences) after our sentinal (*)
+function parseAudiences(goalAudience)
+{
+	var audiences = [];
+	var isAudiences = false;
+
+	for(var x=0; x<goalAudience.length; x++) {
+        if(goalAudience[x].name == "*")
+        {
+        	isAudiences = true;
+        }
+        else
+        {
+        	if(isAudiences) {
+        		audiences.push(goalAudience[x]);
+        	}
+        }
+    }
+
+	return audiences;
+}
 
 module.exports = router;
