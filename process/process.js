@@ -83,13 +83,13 @@ module.exports = {
 				{
 					var expUrlConditions = [{
                             "match_type": "regex",
-                            "value": editorURL
+                            "value": experimentURL
                         }];
 				}
 				else
 					var expUrlConditions = [{
                             "match_type": "simple",
-                            "value": editorURL
+                            "value": experimentURL
                         }];
 
                 var expVariations = [""];
@@ -101,7 +101,7 @@ module.exports = {
                     description: expTitle,
                     status: "Not started",
                     url_conditions: expUrlConditions,
-                    edit_url: experimentURL,
+                    edit_url: editorURL,
                     activation_mode: "immediate",
                     experiment_type: "ab",
                     variation_ids: expVariations
@@ -144,16 +144,47 @@ module.exports = {
 							console.log("Retrieved default variations...");
 
 							variations.forEach(function(variation) {
+								if(variation.description != "Original")
 								var deleted = oc.deleteVariation({
 									id: variation.id
 								});
 							});
 
-							console.log("Deleted default variations...");
+							console.log("Deleted default variation #1...");
 
+							var goalExpIDs = [];
+							goalExpIDs[goalExpIDs.length] = experimentID;
 
+							//post that info to optimizely
+							var addGoal = oc.putGoal({
+								id: goal,
+								experiment_ids: goalExpIDs
+							});
+
+							addGoal.done(function(result) { 
+								console.log("Added goal...\n");   
+
+								var varWeight = varPercent*100;
+								var varDescription = varTitle;
+								var varJS = customJS || "";
+
+								//create variation
+								var createVar = oc.createVariation({
+									experiment_id: experimentID,
+									description: varDescription,
+									weight: varWeight,
+									js_component: varJS
+								});
+								
+								createVar.done(function(result) { 
+									console.log("Created variation 1..."); 
+
+									data[0] = experimentID;
+
+									callback(data);
+								});
+							});
 						});
-
 					});
 				});
 
