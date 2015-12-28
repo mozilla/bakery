@@ -6,74 +6,128 @@ var router = express.Router();
 var stepAPI = 0;
 var stepPage = 0;
 
-
+// requesting root directory
 router.get('/', function(request, response) {
-	// asynchronously request our projects/project IDs
-	require('../../process/process.js').initialize(function (projects) {
+	// if the user has already visited another page in the setup
+	if(request.session.lastPage)
+	{
+		// render index.html with our projects and the currently selected project
+		response.render('index.html', {projects: request.session.projects, step: stepAPI, chosenProj: request.session.projectID});
+		// set the last page visited to index
+		request.session.lastPage = "index";
+	}
+	// if this is the users first visit in the session
+	else
+	{
+		// asynchronously request our projects/project IDs
+		require('../../process/process.js').initialize(function (projects) {
 
-		// store projects/project IDs in our session`
-		request.session.projects = projects;
-			// render our page with those projects
-		response.render('index.html', {projects: projects, step: stepAPI});
-	}, 
-	stepAPI);
-
+			// store projects/project IDs in our session`
+			request.session.projects = projects;
+				// render our page with those projects
+			response.render('index.html', {projects: request.session.projects, step: stepAPI});
+			// set the last page visited to index
+			request.session.lastPage = "index";
+		}, 
+		stepAPI);
+	}
 	// set the page step
 	stepPage = 1;
 });
 
+// requesting expDetails page
 router.get('/expDetails', function(request, response) {
-    // set the step for the API process
-	stepAPI = 1;
+	if(request.session.lastPage)
+	{
+		if(request.session.lastPage == "index")
+		{
+			// set the step for the API process
+			stepAPI = 1;
 
-	// store that project in memory
-	var ProjID = request.query.projects;
-	request.session.projectID = request.query.projects;
+			// store that project in memory
+			var ProjID = request.query.projects;
+			request.session.projectID = request.query.projects;
 
-	// render our page with projects, chosen project, and step
-	require('../../process/process.js').initialize(function (goalAudience) {
-		// set the step for the API process
-		stepAPI = 2;
+			// render our page with projects, chosen project, and step
+			require('../../process/process.js').initialize(function (goalAudience) {
+				// set the step for the API process
+				stepAPI = 2;
 
-		// parse goalAudience for our separated goals and audiences
-		request.session.goals = parseGoals(goalAudience);
-		request.session.audiences = parseAudiences(goalAudience);
+				// parse goalAudience for our separated goals and audiences
+				request.session.goals = parseGoals(goalAudience);
+				request.session.audiences = parseAudiences(goalAudience);
 
-		// render the page
-		response.render('expDetails.html', {step: stepAPI, audiences: request.session.audiences, goals: request.session.goals});
-				
-	}, 
-	stepAPI, 
-	request.session.projectID);
+				// render the page
+				response.render('expDetails.html', {step: stepAPI, audiences: request.session.audiences, goals: request.session.goals,
+					exptitle: request.session.expTitle,
+					editorURL: request.session.editorURL, 
+					experimentURL: request.session.experimentURL,
+					isRegex: request.session.isRegex, 
+					pctVisitors: request.session.pctVisitors
+				});
+				request.session.lastPage = "/expDetails";
+				stepPage = 2;
+			}, 
+			stepAPI, 
+			request.session.projectID);
+		}
+		else
+		{
+			if(request.session.lastPage == "/advDetails")
+			{
+				// render the page
+				response.render('expDetails.html', {step: stepAPI, audiences: request.session.audiences, goals: request.session.goals,
+					exptitle: request.session.expTitle,
+					editorURL: request.session.editorURL, 
+					experimentURL: request.session.experimentURL,
+					isRegex: request.session.isRegex, 
+					pctVisitors: request.session.pctVisitors
+				});
+				request.session.lastPage = "/expDetails";
+				stepPage = 2;
+			}
+			else
+			{
+				response.redirect(301, "/");
+			}
+		}
+	}
+	else
+	{
+		response.redirect(301, "/");
+	}
 
 	// set the page step
-	stepPage = 2;
 });
 
-router.get('/advDetails', function(request, response) {
-	/* Non functioning back butto (for now)
-	if(request.query.formSubmit = "Back")
+router.get('/advDetails', function(request, response) {	
+
+
+	if(request.session.lastPage && request.session.lastPage == "/expDetails")
 	{
-		response.redirect('/');
+		stepAPI = 3;
+		// get querystring parameters from our form submit and store them in the session
+		request.session.expTitle = request.query.exptitle;
+		request.session.editorURL = request.query.editorURL;
+		request.session.experimentURL = request.query.experimentURL;
+		request.session.isRegex = request.query.isRegex;
+		request.session.pctVisitors = request.query.pctVisitors;
+		// we will default the number of variations to 2 for right now
+		// request.session.numVariations = request.query.numVariations;
+		request.session.audience = request.query.audience;
+		request.session.goal = request.query.goals;
+
+		// render the page
+		response.render('advDetails.html', {step: stepAPI});
+		request.session.lastPage = "/advDetails";
+
+		stepPage = 3;
 	}
-	*/
+	else
+	{
+		response.redirect(301, "/");
+	}
 
-	stepAPI = 3;
-	// get querystring parameters from our form submit and store them in the session
-	request.session.expTitle = request.query.exptitle;
-	request.session.editorURL = request.query.editorURL;
-	request.session.experimentURL = request.query.experimentURL;
-	request.session.isRegex = request.query.isRegex;
-	request.session.pctVisitors = request.query.pctVisitors;
-	// we will default the number of variations to 2 for right now
-	// request.session.numVariations = request.query.numVariations;
-	request.session.audience = request.query.audience;
-	request.session.goal = request.query.goals;
-
-	// render the page
-	response.render('advDetails.html', {step: stepAPI});
-
-	stepPage = 3;
 });
 
 router.get('/success',function(request, response) {

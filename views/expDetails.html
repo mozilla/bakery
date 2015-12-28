@@ -29,8 +29,7 @@
                         <div>
                             <p>Experimemt URL:</p>
                         </div>
-                        <input name="experimentURL" type="text">
-                            {{ experimentURL }}
+                        <input name="experimentURL" type="text" value={{experimentURL}}>
                         </input>
                     </div>
 
@@ -38,8 +37,7 @@
                         <div>
                             <p>Experiment URL is Regular Expression:</p>
                         </div>
-                        <input name="isRegex" type="text">
-                            {{ isRegex }}
+                        <input name="isRegex" type="text" value={{isRegex}}>
                         </input>
                     </div>
                     <div class="field">
@@ -111,15 +109,13 @@
                         <div>
                             <p>Percentage of Visitors Included in Experiment:</p>
                         </div>
-                        <input name="pctVisitors" type="text">
-                            {{ pctVisitors }}
+                        <input name="pctVisitors" type="text" value={{pctVisitors}}>
                         </input>
                     </div>
                     
                 </fieldset>
             </div>
-        <!-- Non functioning back button (for now)
-         <input type="submit" name="formSubmit" value="Back" /> -->
+        <input type="button" name="formSubmit" value="Back" onclick="window.location='/';" /> 
         <input type="submit" name="formSubmit" value="Next" />
     </form>
 {% endblock %}
