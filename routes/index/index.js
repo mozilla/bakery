@@ -76,7 +76,7 @@ router.get('/expDetails', function(request, response) {
 			if(request.session.lastPage == "/advDetails")
 			{
 				// render the page
-				response.render('expDetails.html', {step: stepAPI, audiences: request.session.audiences, goals: request.session.goals,
+				response.render('expDetails.html', {step: stepAPI, audiences: request.session.audiences, goals: request.session.goals, chosenAudience: request.session.audience, chosenGoal: request.session.goal,
 					exptitle: request.session.expTitle,
 					editorURL: request.session.editorURL, 
 					experimentURL: request.session.experimentURL,
@@ -101,8 +101,6 @@ router.get('/expDetails', function(request, response) {
 });
 
 router.get('/advDetails', function(request, response) {	
-
-
 	if(request.session.lastPage && request.session.lastPage == "/expDetails")
 	{
 		stepAPI = 3;
@@ -130,14 +128,32 @@ router.get('/advDetails', function(request, response) {
 
 });
 
-router.get('/success',function(request, response) {
-	stepAPI = 4;
+router.get('/confirm',function(request, response) {
 	// get querystring parameters from our form submit and store them in the session
 	request.session.varTitle = request.query.vartitle;
 	request.session.varPercent = request.query.varPercent;
 	request.session.customJS = request.query.customJS;
 	request.session.startTime = request.query.startTime;
 	request.session.stopTime = request.query.stopTime;
+
+	response.render('confirm.html', {audiences: request.session.audiences, goals: request.session.goals, chosenAudience: request.session.audience, chosenGoal: request.session.goal,
+					exptitle: request.session.expTitle,
+					editorURL: request.session.editorURL, 
+					experimentURL: request.session.experimentURL,
+					isRegex: request.session.isRegex, 
+					pctVisitors: request.session.pctVisitors,
+					projects: request.session.projects, 
+					chosenProj: request.session.projectID,
+					vartitle: request.session.varTitle,
+					varPercent: request.session.varPercent,
+					customJS: request.session.customJS,
+					startTime: request.session.startTime,
+					stopTime: request.session.stopTime
+				});
+});
+
+router.get('/success',function(request, response) {
+	stepAPI = 4;
 
 	require('../../process/process.js').initialize(function (data) {
 		var testURL = "https://app.optimizely.com/edit?experiment_id=" + data[0];

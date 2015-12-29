@@ -79,6 +79,8 @@ module.exports = {
 			}
 			case 4: 
 			{
+				console.log("Beginning build process.");
+
 				if(isRegex == "true")
 				{
 					var expUrlConditions = [{
@@ -121,7 +123,7 @@ module.exports = {
 
                     // when we are done updating the experiment
                     update.done(function(result) { 
-                    	console.log("Updated experiment...\n");
+                    	console.log("Updated experiment...");
 
                     	// if we have a start or stop time to add
 						if(startTime || stopTime)
@@ -162,7 +164,7 @@ module.exports = {
 							});
 
 							addGoal.done(function(result) { 
-								console.log("Added goal...\n");   
+								console.log("Added goal...");   
 
 								var varWeight = varPercent*100;
 								var varDescription = varTitle;
