@@ -6,7 +6,7 @@
 
 {% block content %}
     <form id="build-funnelcake" action="/success/" method="get">
-        <div id="step2">
+        <div style="width: 80%;">
                 <fieldset id="background">
                     <legend>Project</legend>
                     <div class="field">
@@ -37,22 +37,22 @@
                     <legend>Experiment Details</legend>
                     <div class="field">
                         <p>Experiment Title:</p>
-                        <input disabled name="exptitle" type="text" value={{exptitle}}>
+                        <input disabled style="width: 100%;" name="exptitle" type="text" value="{{exptitle}}" />
                     </div>
 
                     <div class="field">
                         <p>Editor URL:</p>
-                        <input disabled name="editorURL" type="text" value={{editorURL}}>
+                        <input disabled name="editorURL" type="text" value="{{editorURL}}">
                     </div>
 
                     <div class="field">
-                        <p>Experimemt URL:</p>
-                        <input disabled name="experimentURL" type="text" value={{experimentURL}}>
+                        <p>Experiment URL:</p>
+                        <input disabled name="experimentURL" type="text" value="{{experimentURL}}">
                     </div>
 
                     <div class="field">
                         <p>Experiment URL is Regular Expression:</p>
-                        <input disabled name="isRegex" type="text" value={{isRegex}}>
+                        <input disabled name="isRegex" type="text" value="{{isRegex}}">
                     </div>
                     <div class="field">
                         <p>Audience:</p>
@@ -104,7 +104,7 @@
 
                     <div class="field">
                         <p>Percentage of Visitors Included in Experiment:</p>
-                        <input disabled name="pctVisitors" type="text" value={{pctVisitors}}>
+                        <input disabled name="pctVisitors" type="text" value="{{pctVisitors}}">
                     </div>
                 </fieldset>
 
@@ -114,21 +114,21 @@
                         <div>
                             <p>Variation Title:</p>
                         </div>
-                        <input disabled name="vartitle" type="text" value={{vartitle}}>
+                        <input disabled name="vartitle" type="text" value="{{vartitle}}">
                         </input>
                     </div>
                     <div class="field">
                         <div>
                             <p>Percentage Included:</p>
                         </div>
-                        <input disabled name="varPercent" type="text" value={{varPercent}}>
+                        <input disabled name="varPercent" type="text" value="{{varPercent}}">
                         </input>
                     </div>
                     <div class="field">
                         <div>
                             <p>Custom Javascript:</p>
                         </div>
-                        <input disabled name="customJS" type="text" value={{customJS}}>
+                        <input disabled name="customJS" type="text" value="{{customJS}}">
                         </input>
                     </div>
                 </fieldset>
@@ -138,14 +138,14 @@
                         <div>
                             <p>Start Time:</p>
                         </div>
-                        <input disabled name="startTime" type="text" value={{startTime}}>
+                        <input disabled name="startTime" type="text" value="{{startTime}}">
                         </input>
                     </div>
                     <div class="field">
                         <div>
                             <p>Stop Time:</p>
                         </div>
-                        <input disabled name="stopTime" type="text" value={{stopTime}}>
+                        <input disabled name="stopTime" type="text" value="{{stopTime}}">
                         </input>
                     </div>
                 </fieldset>

@@ -115,15 +115,43 @@ router.get('/advDetails', function(request, response) {
 		request.session.audience = request.query.audience;
 		request.session.goal = request.query.goals;
 
+		console.log("experiment title: " +request.session.expTitle);
+
 		// render the page
-		response.render('advDetails.html', {step: stepAPI});
+		response.render('advDetails.html', {step: stepAPI, 
+						vartitle: request.session.varTitle,
+						varPercent: request.session.varPercent,
+						customJS: request.session.customJS,
+						startTime: request.session.startTime,
+						stopTime: request.session.stopTime
+			});
+
 		request.session.lastPage = "/advDetails";
 
 		stepPage = 3;
 	}
 	else
 	{
-		response.redirect(301, "/");
+		if(request.session.lastPage == "/confirm")
+		{
+			stepAPI = 3;
+			// render the page
+			response.render('advDetails.html', {step: stepAPI, 
+							vartitle: request.session.varTitle,
+							varPercent: request.session.varPercent,
+							customJS: request.session.customJS,
+							startTime: request.session.startTime,
+							stopTime: request.session.stopTime
+				});
+
+			request.session.lastPage = "/advDetails";
+
+			stepPage = 3;
+		}
+		else
+		{
+			response.redirect(301, "/");
+		}
 	}
 
 });
@@ -135,6 +163,8 @@ router.get('/confirm',function(request, response) {
 	request.session.customJS = request.query.customJS;
 	request.session.startTime = request.query.startTime;
 	request.session.stopTime = request.query.stopTime;
+
+	console.log("experiment title: " + request.session.expTitle);
 
 	response.render('confirm.html', {audiences: request.session.audiences, goals: request.session.goals, chosenAudience: request.session.audience, chosenGoal: request.session.goal,
 					exptitle: request.session.expTitle,
@@ -150,6 +180,8 @@ router.get('/confirm',function(request, response) {
 					startTime: request.session.startTime,
 					stopTime: request.session.stopTime
 				});
+
+	request.session.lastPage = "/confirm";
 });
 
 router.get('/success',function(request, response) {

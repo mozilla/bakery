@@ -10,7 +10,7 @@
                 <fieldset id="background">
                     <legend>Project</legend>
                     <div class="field">
-                        <select name="projects" id="projectsList">
+                        <select autofocus name="projects" id="projectsList">
                             {% if chosenProj %}
                                 {% for project in projects %}
                                     {% if project.id == chosenProj %}

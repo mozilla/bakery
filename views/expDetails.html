@@ -6,14 +6,14 @@
 
 {% block content %}
     <form id="build-funnelcake" action="/advDetails/" method="get">
-        <div id="step2">
+        <div style="width: 80%;">
                 <fieldset id="background">
                     <legend>Experiment Details</legend>
                     <div class="field">
                         <div>
                             <p>Experiment Title:</p>
                         </div>
-                        <input name="exptitle" type="text" value={{exptitle}}>
+                        <input autofocus required placeholder="[bug 20400] New-tab Funnelcake Build" style="width:100%;" name="exptitle" type="text" value="{{exptitle}}">
                         </input>
                     </div>
 
@@ -21,23 +21,23 @@
                         <div>
                             <p>Editor URL:</p>
                         </div>
-                        <input name="editorURL" type="text" value={{editorURL}}>
+                        <input type="url" placeholder="https://www.mozilla.org/en-US/firefox/new/" style="width:100%;" name="editorURL" value="{{editorURL}}">
                         </input>
                     </div>
 
                     <div class="field">
                         <div>
-                            <p>Experimemt URL:</p>
+                            <p>Experiment URL:</p>
                         </div>
-                        <input name="experimentURL" type="text" value={{experimentURL}}>
+                        <input required placeholder="^https:\/\/www\.mozilla\.org\/en-US/firefox\/new\/$" style="width:100%;" name="experimentURL" type="text" value="{{experimentURL}}">
                         </input>
                     </div>
 
                     <div class="field">
                         <div>
-                            <p>Experiment URL is Regular Expression:</p>
+                            <p>Experiment URL is Regular Expression (true/false):</p>
                         </div>
-                        <input name="isRegex" type="text" value={{isRegex}}>
+                        <input required placeholder="true" name="isRegex" type="text" style="width:100%;" value="{{isRegex}}">
                         </input>
                     </div>
                     <div class="field">
@@ -109,7 +109,7 @@
                         <div>
                             <p>Percentage of Visitors Included in Experiment:</p>
                         </div>
-                        <input name="pctVisitors" type="text" value={{pctVisitors}}>
+                        <input required placeholder="30" type="number" name="pctVisitors" style="width:100%;" value="{{pctVisitors}}">
                         </input>
                     </div>
                     
