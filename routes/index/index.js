@@ -163,56 +163,70 @@ router.get('/advDetails', function(request, response) {
 });
 
 router.get('/confirm',function(request, response) {
-	// get querystring parameters from our form submit and store them in the session
-	request.session.varTitle = request.query.vartitle;
-	request.session.varPercent = request.query.varPercent;
-	request.session.customJS = request.query.customJS;
-	request.session.startTime = request.query.startTime;
-	request.session.stopTime = request.query.stopTime;
+	if(request.session.lastPage == "/advDetails")
+	{
+		// get querystring parameters from our form submit and store them in the session
+		request.session.varTitle = request.query.vartitle;
+		request.session.varPercent = request.query.varPercent;
+		request.session.customJS = request.query.customJS;
+		request.session.startTime = request.query.startTime;
+		request.session.stopTime = request.query.stopTime;
 
-	console.log("experiment title: " + request.session.expTitle);
+		console.log("experiment title: " + request.session.expTitle);
 
-	response.render('confirm.html', {audiences: request.session.audiences, goals: request.session.goals, chosenAudience: request.session.audience, chosenGoal: request.session.goal,
-					exptitle: request.session.expTitle,
-					editorURL: request.session.editorURL, 
-					experimentURL: request.session.experimentURL,
-					isRegex: request.session.isRegex, 
-					pctVisitors: request.session.pctVisitors,
-					projects: request.session.projects, 
-					chosenProj: request.session.projectID,
-					vartitle: request.session.varTitle,
-					varPercent: request.session.varPercent,
-					customJS: request.session.customJS,
-					startTime: request.session.startTime,
-					stopTime: request.session.stopTime,
-					title: title, brand: brand
-				});
+		response.render('confirm.html', {audiences: request.session.audiences, goals: request.session.goals, chosenAudience: request.session.audience, chosenGoal: request.session.goal,
+						exptitle: request.session.expTitle,
+						editorURL: request.session.editorURL, 
+						experimentURL: request.session.experimentURL,
+						isRegex: request.session.isRegex, 
+						pctVisitors: request.session.pctVisitors,
+						projects: request.session.projects, 
+						chosenProj: request.session.projectID,
+						vartitle: request.session.varTitle,
+						varPercent: request.session.varPercent,
+						customJS: request.session.customJS,
+						startTime: request.session.startTime,
+						stopTime: request.session.stopTime,
+						title: title, brand: brand
+					});
 
-	request.session.lastPage = "/confirm";
+		request.session.lastPage = "/confirm";
+	}
+	else
+	{
+		response.redirect(301, "/");
+	}
 });
 
 router.get('/success',function(request, response) {
-	stepAPI = 4;
+	if(request.session.lastPage == "/confirm")
+	{
+		stepAPI = 4;
 
-	require('../../process/process.js').initialize(function (data) {
-		var testURL = "https://app.optimizely.com/edit?experiment_id=" + data[0];
+		require('../../process/process.js').initialize(function (data) {
+			var testURL = "https://app.optimizely.com/edit?experiment_id=" + data[0];
 
-		response.render('success.html', {testURL: testURL, title: title, brand: brand});
-	}, 
-	stepAPI, 
-	request.session.projectID, 
-	request.session.goal, 
-	request.session.audience, 
-	request.session.expTitle, 
-	request.session.editorURL, 
-	request.session.experimentURL,
-	request.session.isRegex, 
-	request.session.pctVisitors,
-	request.session.varTitle,
-	request.session.varPercent,
-	request.session.customJS,
-	request.session.startTime,
-	request.session.stopTime);
+			response.render('success.html', {testURL: testURL, title: title, brand: brand});
+		}, 
+		stepAPI, 
+		request.session.projectID, 
+		request.session.goal, 
+		request.session.audience, 
+		request.session.expTitle, 
+		request.session.editorURL, 
+		request.session.experimentURL,
+		request.session.isRegex, 
+		request.session.pctVisitors,
+		request.session.varTitle,
+		request.session.varPercent,
+		request.session.customJS,
+		request.session.startTime,
+		request.session.stopTime);
+	}
+	else
+	{
+		response.redirect(301, "/");
+	}
 });
 
 // parseGoals function

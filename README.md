@@ -22,9 +22,10 @@ Clone the repository:
 
 Installing neccessary dependencies:
 
-1. Run `npm install`
-2. Locate the file [OptimizelyClient.js](https://github.com/mozilla/bakery/blob/additionalEdits/OptimizelyClient.js) in the root directory of Bakery
-3. Copy that file to node_modules/optimizely-node-client/lib/ replacing the existing OptimzielyClient.js file
+1. Download and Install [Node](https://nodejs.org/en/download/)
+2. Run `npm install`
+3. Locate the file [OptimizelyClient.js](https://github.com/mozilla/bakery/blob/additionalEdits/OptimizelyClient.js) in the root directory of Bakery
+4. Copy that file to node_modules/optimizely-node-client/lib/ replacing the existing OptimzielyClient.js file
 
 Authenticating Bakery:
 
