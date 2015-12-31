@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-US" dir="ltr">
     <head>
         <meta charset="utf-8" />
@@ -7,14 +7,33 @@
         {% else %}
             <title>{{ brand }}</title>
         {% endif %}
-        <link rel="stylesheet" href="/assets/styles/main.css" />
+        <link rel="stylesheet" href="/assets/styles/bootstrap.css" />
         {% block styles %}{% endblock %}
     </head>
     <body>
         <main>
-            {% block content %}{% endblock %}
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">Bakery</a>
+                    </div>
+                    <ol class="breadcrumb" style="margin-top:8px;">
+                        {% block breadcrumb %}{% endblock %}
+                    </ol>
+                </div>
+            </nav>
+
+            <div class="container">  
+                <div style="margin-bottom: 20px;">
+                    {% block head %}{% endblock %}
+                </div>
+
+                {% block content %}{% endblock %}
+            </div>
         </main>
         <script src="/lib/jquery/dist/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.js"></script>
         {% block scripts %}{% endblock %}
     </body>
 </html>

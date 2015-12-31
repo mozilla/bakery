@@ -4,11 +4,19 @@
     <link rel="stylesheet" href="/assets/styles/index.css" />
 {% endblock %}
 
+{% block breadcrumb %}
+    <li><a href="/">Project Selection</a></li>
+    <li class="active"><a>Experiment Details</a></li>
+{% endblock %}
+
+{% block head %}
+    <h1>Experiment Details</h1>
+    <p>Now define your experiment specifics.</p> 
+{% endblock %}
+
 {% block content %}
     <form id="build-funnelcake" action="/advDetails/" method="get">
-        <div style="width: 80%;">
                 <fieldset id="background">
-                    <legend>Experiment Details</legend>
                     <div class="field">
                         <div>
                             <p>Experiment Title:</p>
@@ -109,12 +117,11 @@
                         <div>
                             <p>Percentage of Visitors Included in Experiment:</p>
                         </div>
-                        <input required placeholder="30" type="number" name="pctVisitors" style="width:100%;" value="{{pctVisitors}}">
+                        <input required placeholder="30" min="0" max="100" type="number" name="pctVisitors" style="width:100%;" value="{{pctVisitors}}">
                         </input>
                     </div>
                     
                 </fieldset>
-            </div>
         <input type="button" name="formSubmit" value="Back" onclick="window.location='/';" /> 
         <input type="submit" name="formSubmit" value="Next" />
     </form>

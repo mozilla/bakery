@@ -5,6 +5,8 @@ var router = express.Router();
 
 var stepAPI = 0;
 var stepPage = 0;
+var title= "Bakery";
+var brand= "Optimizely Test Deployment Tool";
 
 // requesting root directory
 router.get('/', function(request, response) {
@@ -12,7 +14,7 @@ router.get('/', function(request, response) {
 	if(request.session.lastPage)
 	{
 		// render index.html with our projects and the currently selected project
-		response.render('index.html', {projects: request.session.projects, step: stepAPI, chosenProj: request.session.projectID});
+		response.render('index.html', {projects: request.session.projects, step: stepAPI, chosenProj: request.session.projectID, title: title, brand: brand});
 		// set the last page visited to index
 		request.session.lastPage = "index";
 	}
@@ -25,7 +27,7 @@ router.get('/', function(request, response) {
 			// store projects/project IDs in our session`
 			request.session.projects = projects;
 				// render our page with those projects
-			response.render('index.html', {projects: request.session.projects, step: stepAPI});
+			response.render('index.html', {projects: request.session.projects, step: stepAPI, title: title, brand: brand});
 			// set the last page visited to index
 			request.session.lastPage = "index";
 		}, 
@@ -63,7 +65,8 @@ router.get('/expDetails', function(request, response) {
 					editorURL: request.session.editorURL, 
 					experimentURL: request.session.experimentURL,
 					isRegex: request.session.isRegex, 
-					pctVisitors: request.session.pctVisitors
+					pctVisitors: request.session.pctVisitors, 
+					title: title, brand: brand
 				});
 				request.session.lastPage = "/expDetails";
 				stepPage = 2;
@@ -81,7 +84,8 @@ router.get('/expDetails', function(request, response) {
 					editorURL: request.session.editorURL, 
 					experimentURL: request.session.experimentURL,
 					isRegex: request.session.isRegex, 
-					pctVisitors: request.session.pctVisitors
+					pctVisitors: request.session.pctVisitors, 
+					title: title, brand: brand
 				});
 				request.session.lastPage = "/expDetails";
 				stepPage = 2;
@@ -123,7 +127,8 @@ router.get('/advDetails', function(request, response) {
 						varPercent: request.session.varPercent,
 						customJS: request.session.customJS,
 						startTime: request.session.startTime,
-						stopTime: request.session.stopTime
+						stopTime: request.session.stopTime, 
+						title: title, brand: brand
 			});
 
 		request.session.lastPage = "/advDetails";
@@ -141,7 +146,8 @@ router.get('/advDetails', function(request, response) {
 							varPercent: request.session.varPercent,
 							customJS: request.session.customJS,
 							startTime: request.session.startTime,
-							stopTime: request.session.stopTime
+							stopTime: request.session.stopTime,
+							title: title, brand: brand
 				});
 
 			request.session.lastPage = "/advDetails";
@@ -178,7 +184,8 @@ router.get('/confirm',function(request, response) {
 					varPercent: request.session.varPercent,
 					customJS: request.session.customJS,
 					startTime: request.session.startTime,
-					stopTime: request.session.stopTime
+					stopTime: request.session.stopTime,
+					title: title, brand: brand
 				});
 
 	request.session.lastPage = "/confirm";
@@ -190,7 +197,7 @@ router.get('/success',function(request, response) {
 	require('../../process/process.js').initialize(function (data) {
 		var testURL = "https://app.optimizely.com/edit?experiment_id=" + data[0];
 
-		response.render('success.html', {testURL: testURL});
+		response.render('success.html', {testURL: testURL, title: title, brand: brand});
 	}, 
 	stepAPI, 
 	request.session.projectID, 

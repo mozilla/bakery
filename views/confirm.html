@@ -4,12 +4,23 @@
     <link rel="stylesheet" href="/assets/styles/index.css" />
 {% endblock %}
 
+{% block breadcrumb %}
+    <li><a href="/">Project Selection</a></li>
+    <li><a href="/expDetails">Experiment Details</a></li>
+    <li><a href="/advDetails">Variation & Schedule</a></li>
+    <li class="active"><a>Build Confirmation</a></li>
+{% endblock %}
+
+{% block head %}
+    <h1>Build Confirmation</h1>
+    <p>Check that your experiment details are correct, and then hit build!</p> 
+{% endblock %}
+
 {% block content %}
     <form id="build-funnelcake" action="/success/" method="get">
-        <div style="width: 80%;">
                 <fieldset id="background">
-                    <legend>Project</legend>
                     <div class="field">
+                        <p>Project:</p>
                         <select disabled name="projects" id="projectsList">
                             {% if chosenProj %}
                                 {% for project in projects %}
@@ -31,10 +42,6 @@
 
                         </select>
                     </div>
-                </fieldset>
-
-                <fieldset id="background">
-                    <legend>Experiment Details</legend>
                     <div class="field">
                         <p>Experiment Title:</p>
                         <input disabled style="width: 100%;" name="exptitle" type="text" value="{{exptitle}}" />
@@ -106,10 +113,7 @@
                         <p>Percentage of Visitors Included in Experiment:</p>
                         <input disabled name="pctVisitors" type="text" value="{{pctVisitors}}">
                     </div>
-                </fieldset>
 
-                <fieldset id="background">
-                    <legend>Variation Details</legend>
                     <div class="field">
                         <div>
                             <p>Variation Title:</p>
@@ -131,9 +135,8 @@
                         <input disabled name="customJS" type="text" value="{{customJS}}">
                         </input>
                     </div>
-                </fieldset>
-                <fieldset id="background">
-                    <legend>Schedule Details (Optional)</legend>
+                {% if startTime or stopTime %}
+                    <legend>Schedule (Optional)</legend>
                     <div class="field">
                         <div>
                             <p>Start Time:</p>
@@ -149,8 +152,7 @@
                         </input>
                     </div>
                 </fieldset>
-                
-            </div>
+                {% endif %}
         <input type="button" name="formSubmit" value="Back" onclick="window.location='/advDetails';" /> 
         <input type="button" value="Build Funnelcake" onclick="window.location='/success';" />
     </form>
