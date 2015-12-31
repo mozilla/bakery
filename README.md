@@ -17,8 +17,8 @@ Bakery is a remote Optimizely A/B test creation tool which utilizes the [Optimiz
 Clone the repository:
 
 1. Open your Terminal
-2. Run 'git clone https://github.com/mozilla/bakery.git'
-3. Run 'cd bakery'
+2. Run `git clone https://github.com/mozilla/bakery.git`
+3. Run `cd bakery`
 
 Installing neccessary dependencies:
 
@@ -29,16 +29,16 @@ Installing neccessary dependencies:
 Authenticating Bakery:
 
 1. Generate an API token from the [token generator](http://app.optimizely.com/tokens), or use an existing API token on the account.
-2. Copy that token to your [Access.js](https://github.com/mozilla/bakery/blob/additionalEdits/access.js#L3) file, and replace 'your token here' with the token (don't forget the single quotations around the token).
+2. Copy that token to your [Access.js](https://github.com/mozilla/bakery/blob/additionalEdits/access.js#L3) file, and replace `'your token here'` with the token (don't forget the single quotations around the token).
 
 Running Bakery Web-Tool (Stable):
 
-1. Run 'node ./bin/www.js'
+1. Run `node ./bin/www.js`
 2. Open Firefox and navigate to [localhost:3000](http://localhost:3000)
 
 Running Bakery Script-Tool (Unstable):
 
-2. Run 'node bakeryScript.js'
+2. Run `node bakeryScript.js`
 
 # Contributing
 
