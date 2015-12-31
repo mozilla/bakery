@@ -10,7 +10,7 @@ An Optimizely A/B test deployment tool developed by the [Firefox Growth Team](ht
 
 # About
 
-Bakery is a remote Optimizely A/B test deployment tool which utilizes the [Optimizely REST API](http://developers.optimizely.com/rest/introduction/index.html) and a modified version of the [FunnelEnvy Optimizely-Node Tool](https://github.com/funnelenvy/optimizely-node). The repository hosts two different deployment tools, one on the Web (stable) and one as a Node.js script (unstable). The web application is written using Node.js, Express.js, and Nunjucks. The script is written using Node.js.
+Bakery is a remote Optimizely A/B test creation tool which utilizes the [Optimizely REST API](http://developers.optimizely.com/rest/introduction/index.html) and a modified version of the [FunnelEnvy Optimizely-Node Tool](https://github.com/funnelenvy/optimizely-node). The repository hosts two different deployment tools, one on the Web (stable) and one as a Node.js script (unstable). The web application is written using Node.js, Express.js, and Nunjucks. The script is written using Node.js.
 
 # Usage
 
