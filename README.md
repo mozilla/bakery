@@ -4,13 +4,13 @@ An Optimizely A/B test deployment tool developed by the [Firefox Growth Team](ht
 
 # Table of Contents
 
-1. [About](https://github.com/mozilla/bakery#About)
-2. [Usage](https://github.com/mozilla/bakery#Usage)
-3. [Contributing](https://github.com/mozilla/bakery#Contributing)
+1. [About](https://github.com/mozilla/bakery#about)
+2. [Usage](https://github.com/mozilla/bakery#usage)
+3. [Contributing](https://github.com/mozilla/bakery#contributing)
 
 # About
 
-Bakery is a remote Optimizely A/B test deployment tool which utilizes the [Optimizely REST API](https://github.com/funnelenvy/optimizely-node) and a modified version of the [FunnelEnvy Optimizely-Node Tool](https://github.com/funnelenvy/optimizely-node). The repository hosts two different deployment tools, one on the Web (stable) and one as a Node.js script (unstable). The web application is written using Node.js, Express.js, and Nunjucks, and the script is written using Node.js.
+Bakery is a remote Optimizely A/B test deployment tool which utilizes the [Optimizely REST API](http://developers.optimizely.com/rest/introduction/index.html) and a modified version of the [FunnelEnvy Optimizely-Node Tool](https://github.com/funnelenvy/optimizely-node). The repository hosts two different deployment tools, one on the Web (stable) and one as a Node.js script (unstable). The web application is written using Node.js, Express.js, and Nunjucks, and the script is written using Node.js.
 
 # Usage
 
